@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Purificadora</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <div th:insert="fragments/csrf_fragment :: csrfMeta"></div>
+</head>
+<body class="min-h-screen bg-gradient-to-b from-sky-100 via-white to-slate-100 text-slate-900">
+<div class="flex min-h-screen items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
+    <div class="w-full max-w-md space-y-8 rounded-3xl bg-white/90 p-10 shadow-xl shadow-slate-200 backdrop-blur">
+        <div class="space-y-2 text-center">
+            <h1 class="text-3xl font-semibold text-sky-700">Bienvenido a Purificadora</h1>
+            <p class="text-sm text-slate-500">Inicia sesión para administrar tu cuenta y pedidos.</p>
+        </div>
+
+        <div th:if="${error}" class="rounded-xl border border-red-200 bg-red-50 p-4 text-red-700">
+            <p th:text="${error}"></p>
+        </div>
+        <div th:if="${success}" class="rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-emerald-700">
+            <p th:text="${success}"></p>
+        </div>
+
+        <form class="mt-8 space-y-6" th:action="@{/login}" method="post">
+            <div th:if="${_csrf != null}">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+            </div>
+            <div class="rounded-3xl bg-slate-50 p-6 shadow-inner shadow-slate-100">
+                <div class="space-y-5">
+                    <div>
+                        <label class="mb-2 block text-sm font-medium text-slate-700">Correo</label>
+                        <input name="username" type="email" required
+                               class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none ring-sky-200 transition focus:border-sky-400 focus:ring"
+                               placeholder="correo@ejemplo.com">
+                    </div>
+                    <div>
+                        <label class="mb-2 block text-sm font-medium text-slate-700">Contraseña</label>
+                        <input name="password" type="password" required
+                               class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none ring-sky-200 transition focus:border-sky-400 focus:ring"
+                               placeholder="Tu contraseña">
+                    </div>
+                </div>
+            </div>
+            <button type="submit"
+                    class="w-full rounded-2xl bg-sky-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-sky-700">
+                Iniciar sesión
+            </button>
+            <p class="text-center text-sm text-slate-500">¿No tienes cuenta? <a href="/registro"
+                                                                                       class="font-semibold text-sky-600 hover:text-sky-700">Regístrate</a>
+            </p>
+        </form>
+    </div>
+</div>
+</body>
+</html>

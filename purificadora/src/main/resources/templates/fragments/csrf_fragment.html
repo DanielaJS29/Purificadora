@@ -1,0 +1,5 @@
+<div th:fragment="csrfMeta">
+    <meta th:if="${_csrf != null}" name="_csrf" th:content="${_csrf.token}" />
+    <meta th:if="${_csrf != null}" name="_csrf_header" th:content="${_csrf.headerName}" />
+    <script th:src="@{/js/csrf.js}"></script>
+</div>

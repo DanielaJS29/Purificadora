@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro | Purificadora</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <div th:insert="fragments/csrf_fragment :: csrfMeta"></div>
+</head>
+<body class="min-h-screen bg-gradient-to-b from-sky-100 via-white to-slate-100 text-slate-900">
+<div class="flex min-h-screen items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
+    <div class="w-full max-w-3xl space-y-8 rounded-3xl bg-white/90 p-10 shadow-xl shadow-slate-200 backdrop-blur">
+        <div class="space-y-2 text-center">
+            <h1 class="text-3xl font-semibold text-sky-700">Crea tu cuenta</h1>
+            <p class="text-sm text-slate-500">Regístrate para acceder al panel de administración de la purificadora.</p>
+        </div>
+
+        <div th:if="${error}" class="rounded-xl border border-red-200 bg-red-50 p-4 text-red-700">
+            <p th:text="${error}"></p>
+        </div>
+        <div th:if="${success}" class="rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-emerald-700">
+            <p th:text="${success}"></p>
+        </div>
+
+        <form class="grid gap-6" th:action="@{/registro}" method="post" th:object="${usuario}">
+            <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                <div>
+                    <label class="mb-2 block text-sm font-medium text-slate-700">Nombre</label>
+                    <input th:field="*{nombre}" type="text" placeholder="Juan"
+                           class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none ring-sky-200 transition focus:border-sky-400 focus:ring">
+                    <p th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}" class="mt-1 text-sm text-red-600"></p>
+                </div>
+                <div>
+                    <label class="mb-2 block text-sm font-medium text-slate-700">Apellido</label>
+                    <input th:field="*{apellido}" type="text" placeholder="Pérez"
+                           class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none ring-sky-200 transition focus:border-sky-400 focus:ring">
+                    <p th:if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}" class="mt-1 text-sm text-red-600"></p>
+                </div>
+            </div>
+
+            <div class="grid gap-6 sm:grid-cols-2">
+                <div>
+                    <label class="mb-2 block text-sm font-medium text-slate-700">Correo</label>
+                    <input th:field="*{correo}" type="email" placeholder="correo@ejemplo.com"
+                           class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none ring-sky-200 transition focus:border-sky-400 focus:ring">
+                    <p th:if="${#fields.hasErrors('correo')}" th:errors="*{correo}" class="mt-1 text-sm text-red-600"></p>
+                </div>
+                <div>
+                    <label class="mb-2 block text-sm font-medium text-slate-700">Contraseña</label>
+                    <input th:field="*{contrasena}" type="password" placeholder="Mínimo 8 caracteres"
+                           class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none ring-sky-200 transition focus:border-sky-400 focus:ring">
+                    <p th:if="${#fields.hasErrors('contrasena')}" th:errors="*{contrasena}" class="mt-1 text-sm text-red-600"></p>
+                </div>
+            </div>
+
+            <div class="grid gap-6 sm:grid-cols-2">
+                <div>
+                    <label class="mb-2 block text-sm font-medium text-slate-700">Edad</label>
+                    <input th:field="*{edad}" type="number" min="1" placeholder="30"
+                           class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none ring-sky-200 transition focus:border-sky-400 focus:ring">
+                    <p th:if="${#fields.hasErrors('edad')}" th:errors="*{edad}" class="mt-1 text-sm text-red-600"></p>
+                </div>
+                <div>
+                    <label class="mb-2 block text-sm font-medium text-slate-700">Sexo</label>
+                    <select th:field="*{sexo}"
+                            class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none ring-sky-200 transition focus:border-sky-400 focus:ring">
+                        <option value="" disabled selected>Selecciona</option>
+                        <option value="Femenino">Femenino</option>
+                        <option value="Masculino">Masculino</option>
+                        <option value="Otro">Otro</option>
+                    </select>
+                    <p th:if="${#fields.hasErrors('sexo')}" th:errors="*{sexo}" class="mt-1 text-sm text-red-600"></p>
+                </div>
+            </div>
+
+            <div>
+                <label class="mb-2 block text-sm font-medium text-slate-700">Dirección</label>
+                <textarea th:field="*{direccion}" rows="3" placeholder="Calle 123, Ciudad"
+                          class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none ring-sky-200 transition focus:border-sky-400 focus:ring"></textarea>
+                <p th:if="${#fields.hasErrors('direccion')}" th:errors="*{direccion}" class="mt-1 text-sm text-red-600"></p>
+            </div>
+
+            <button type="submit"
+                    class="w-full rounded-2xl bg-sky-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-sky-700">
+                Registrar cuenta
+            </button>
+
+            <p class="text-center text-sm text-slate-500">¿Ya tienes cuenta? <a href="/login"
+                                                                                   class="font-semibold text-sky-600 hover:text-sky-700">Inicia sesión</a>
+            </p>
+        </form>
+    </div>
+</div>
+</body>
+</html>

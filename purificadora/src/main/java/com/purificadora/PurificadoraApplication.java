@@ -1,4 +1,4 @@
-package com.purificadora.purificadora;
+package com.purificadora;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
