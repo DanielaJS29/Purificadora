@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Inventario | Formulario de Producto</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <th:block th:insert="~{fragments/csrf_fragment :: csrfMeta}" />
+</head>
+<body class="min-h-screen bg-slate-50 text-slate-900">
+<div class="min-h-screen">
+    <div class="grid min-h-screen lg:grid-cols-[280px_1fr]">
+        <div th:insert="~{fragments/sidebar_fragment :: sidebarMenu}"></div>
+        <div class="mx-auto w-full px-4 py-8 sm:px-6 lg:px-8">
+            <div class="rounded-3xl bg-white p-6 shadow-xl shadow-slate-200">
+        <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+                <h1 class="text-3xl font-semibold text-sky-700" th:text="${producto.idProducto != null} ? 'Editar Producto' : 'Nuevo Producto'"></h1>
+                <p class="text-sm text-slate-500">Completa los datos del producto para registrarlo en inventario.</p>
+            </div>
+            <a href="/inventario/productos" class="inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-100">Regresar a productos</a>
+        </div>
+
+        <div th:if="${success}" class="mt-6 rounded-3xl border border-emerald-200 bg-emerald-50 p-4 text-emerald-700">
+            <p th:text="${success}"></p>
+        </div>
+        <div th:if="${error}" class="mt-6 rounded-3xl border border-rose-200 bg-rose-50 p-4 text-rose-700">
+            <p th:text="${error}"></p>
+        </div>
+
+        <form th:action="@{/inventario/productos}" method="post" th:object="${producto}" class="mt-8 grid gap-6">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+            <div class="grid gap-6 sm:grid-cols-2">
+                <div>
+                    <label class="mb-2 block text-sm font-medium text-slate-700">Nombre del producto</label>
+                    <input th:field="*{nombre}" type="text" placeholder="Garrafón 20L Agua Purificada"
+                           class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none transition focus:border-sky-400 focus:ring-2 focus:ring-sky-100" />
+                    <p th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}" class="mt-1 text-sm text-rose-600"></p>
+                </div>
+                <div>
+                    <label class="mb-2 block text-sm font-medium text-slate-700">Categoría</label>
+                    <select th:field="*{categoria.idCategoria}"
+                            class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none transition focus:border-sky-400 focus:ring-2 focus:ring-sky-100">
+                        <option value="" disabled="disabled" th:selected="${producto.categoria == null}">Selecciona una categoría</option>
+                        <option th:each="categoria : ${categorias}"
+                                th:value="${categoria.idCategoria}"
+                                th:text="${categoria.nombre}"
+                                th:selected="${producto.categoria != null} ? ${categoria.idCategoria == producto.categoria.idCategoria} : false">
+                        </option>
+                    </select>
+                    <p th:if="${#fields.hasErrors('categoria')}" th:errors="*{categoria}" class="mt-1 text-sm text-rose-600"></p>
+                </div>
+            </div>
+
+            <div>
+                <label class="mb-2 block text-sm font-medium text-slate-700">Descripción</label>
+                <textarea th:field="*{descripcion}" rows="4" placeholder="Descripción del producto"
+                          class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none transition focus:border-sky-400 focus:ring-2 focus:ring-sky-100"></textarea>
+                <p th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}" class="mt-1 text-sm text-rose-600"></p>
+            </div>
+
+            <div class="grid gap-6 sm:grid-cols-3">
+                <div>
+                    <label class="mb-2 block text-sm font-medium text-slate-700">Precio de compra</label>
+                    <input th:field="*{precioCompra}" type="number" step="0.01" min="0"
+                           class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none transition focus:border-sky-400 focus:ring-2 focus:ring-sky-100" />
+                    <p th:if="${#fields.hasErrors('precioCompra')}" th:errors="*{precioCompra}" class="mt-1 text-sm text-rose-600"></p>
+                </div>
+                <div>
+                    <label class="mb-2 block text-sm font-medium text-slate-700">Precio de venta</label>
+                    <input th:field="*{precioVenta}" type="number" step="0.01" min="0"
+                           class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none transition focus:border-sky-400 focus:ring-2 focus:ring-sky-100" />
+                    <p th:if="${#fields.hasErrors('precioVenta')}" th:errors="*{precioVenta}" class="mt-1 text-sm text-rose-600"></p>
+                </div>
+                <div>
+                    <label class="mb-2 block text-sm font-medium text-slate-700">Unidad de medida</label>
+                    <input th:field="*{unidadMedida}" type="text" placeholder="Piezas, Litros, Kilos"
+                           class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none transition focus:border-sky-400 focus:ring-2 focus:ring-sky-100" />
+                    <p th:if="${#fields.hasErrors('unidadMedida')}" th:errors="*{unidadMedida}" class="mt-1 text-sm text-rose-600"></p>
+                </div>
+            </div>
+
+            <div class="grid gap-6 sm:grid-cols-2">
+                <div>
+                    <label class="mb-2 block text-sm font-medium text-slate-700">Stock actual</label>
+                    <input th:field="*{stockActual}" type="number" min="0"
+                           class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none transition focus:border-sky-400 focus:ring-2 focus:ring-sky-100" />
+                    <p th:if="${#fields.hasErrors('stockActual')}" th:errors="*{stockActual}" class="mt-1 text-sm text-rose-600"></p>
+                </div>
+                <div>
+                    <label class="mb-2 block text-sm font-medium text-slate-700">Stock mínimo</label>
+                    <input th:field="*{stockMinimo}" type="number" min="0"
+                           class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none transition focus:border-sky-400 focus:ring-2 focus:ring-sky-100" />
+                    <p th:if="${#fields.hasErrors('stockMinimo')}" th:errors="*{stockMinimo}" class="mt-1 text-sm text-rose-600"></p>
+                </div>
+            </div>
+
+            <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
+                <a href="/inventario/productos" class="inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-slate-50 px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-100">Cancelar</a>
+                <button type="submit" class="inline-flex items-center justify-center rounded-2xl bg-sky-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-sky-700">Guardar producto</button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

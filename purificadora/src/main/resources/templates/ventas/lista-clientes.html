@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ventas | Clientes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <th:block th:insert="~{fragments/csrf_fragment :: csrfMeta}" />
+</head>
+<body class="min-h-screen bg-slate-50 text-slate-900">
+<div class="min-h-screen">
+    <div class="grid min-h-screen lg:grid-cols-[280px_1fr]">
+        <div th:insert="~{fragments/sidebar_fragment :: sidebarMenu}"></div>
+        <div class="mx-auto w-full px-4 py-8 sm:px-6 lg:px-8">
+            <div class="rounded-3xl bg-white p-6 shadow-xl shadow-slate-200">
+                <div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                    <div>
+                        <h1 class="text-3xl font-semibold text-sky-700">Clientes</h1>
+                        <p class="text-sm text-slate-500">Administra los clientes para ventas y entregas.</p>
+                    </div>
+                    <a href="/ventas/nueva" class="inline-flex items-center justify-center rounded-2xl bg-slate-800 px-4 py-3 text-sm font-semibold text-white transition hover:bg-slate-900">Nueva Venta</a>
+                </div>
+
+                <div class="grid gap-6 lg:grid-cols-[2fr_1fr] mb-6">
+                    <div class="rounded-3xl bg-slate-50 p-5 shadow-inner shadow-slate-100">
+                        <h2 class="mb-4 text-lg font-semibold text-slate-700">Lista de clientes</h2>
+                        <div class="overflow-x-auto rounded-3xl border border-slate-200 bg-white">
+                            <table class="min-w-full divide-y divide-slate-200 text-left text-sm">
+                                <thead class="bg-slate-100 text-slate-700">
+                                <tr>
+                                    <th class="px-4 py-3 font-medium">Nombre</th>
+                                    <th class="px-4 py-3 font-medium">Teléfono</th>
+                                    <th class="px-4 py-3 font-medium">Dirección</th>
+                                    <th class="px-4 py-3 font-medium">Saldo envases</th>
+                                </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-200 bg-white">
+                                <tr th:each="cliente : ${clientes}">
+                                    <td class="px-4 py-4 text-slate-800" th:text="${cliente.nombre}"></td>
+                                    <td class="px-4 py-4 text-slate-800" th:text="${cliente.telefono}"></td>
+                                    <td class="px-4 py-4 text-slate-800" th:text="${cliente.direccion}"></td>
+                                    <td class="px-4 py-4 text-slate-800" th:text="${cliente.saldoEnvases}"></td>
+                                </tr>
+                                <tr th:if="${#lists.isEmpty(clientes)}">
+                                    <td class="px-4 py-8 text-center text-slate-500" colspan="4">No se encontraron clientes.</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="rounded-3xl bg-slate-50 p-5 shadow-inner shadow-slate-100">
+                        <h2 class="mb-4 text-lg font-semibold text-slate-700">Agregar cliente</h2>
+                        <form th:action="@{/ventas/clientes}" th:object="${cliente}" method="post" class="space-y-4">
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                            <div>
+                                <label class="mb-2 block text-sm font-medium text-slate-700">Nombre</label>
+                                <input type="text" th:field="*{nombre}" required
+                                       class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none focus:border-sky-400 focus:ring-2 focus:ring-sky-100" />
+                            </div>
+                            <div>
+                                <label class="mb-2 block text-sm font-medium text-slate-700">Teléfono</label>
+                                <input type="text" th:field="*{telefono}"
+                                       class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none focus:border-sky-400 focus:ring-2 focus:ring-sky-100" />
+                            </div>
+                            <div>
+                                <label class="mb-2 block text-sm font-medium text-slate-700">Dirección</label>
+                                <input type="text" th:field="*{direccion}"
+                                       class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none focus:border-sky-400 focus:ring-2 focus:ring-sky-100" />
+                            </div>
+                            <div>
+                                <label class="mb-2 block text-sm font-medium text-slate-700">Referencias</label>
+                                <textarea th:field="*{referenciasDireccion}"
+                                          class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none focus:border-sky-400 focus:ring-2 focus:ring-sky-100" rows="3"></textarea>
+                            </div>
+                            <button type="submit" class="inline-flex w-full items-center justify-center rounded-2xl bg-sky-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-sky-700">Guardar cliente</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
