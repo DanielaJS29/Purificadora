@@ -5,72 +5,98 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Ventas | Historial</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <th:block th:insert="~{fragments/csrf_fragment :: csrfMeta}" />
+    <link rel="stylesheet" th:href="@{/css/main.css}" />
+    <th:block th:replace="~{fragments/csrf_fragment :: csrfMeta}"></th:block>
 </head>
-<body class="min-h-screen bg-slate-50 text-slate-900">
-<div class="min-h-screen">
-    <div class="grid min-h-screen lg:grid-cols-[280px_1fr]">
+<body class="min-h-screen bg-gradient-to-br from-purple-100 via-indigo-50 to-purple-200 text-slate-700">
+
+<div class="min-h-screen p-4 sm:p-6 lg:p-8">
+    <div class="app-shell grid min-h-[calc(100vh-2rem)] gap-10 lg:gap-14 sm:min-h-[calc(100vh-3rem)] lg:min-h-[calc(100vh-4rem)]">
+
+        <!-- Sidebar (fragmento externo, sin tocar su lógica) -->
         <div th:insert="~{fragments/sidebar_fragment :: sidebarMenu}"></div>
-        <div class="mx-auto w-full px-4 py-8 sm:px-6 lg:px-8">
-            <div class="rounded-3xl bg-white p-6 shadow-xl shadow-slate-200">
-                <div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                    <div>
-                        <h1 class="text-3xl font-semibold text-sky-700">Historial de Ventas</h1>
-                        <p class="text-sm text-slate-500">Revisa las ventas registradas y consulta sus detalles.</p>
+
+        <div class="mx-auto w-full">
+
+            <!-- ===================== TARJETA PRINCIPAL ===================== -->
+            <div class="rounded-[2.5rem] bg-purple-50/90 backdrop-blur p-6 sm:p-10 clay-card">
+
+                <div class="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+                    <div class="flex items-center gap-4">
+                        <div class="hidden sm:flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 clay-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h1 class="text-2xl sm:text-3xl font-extrabold text-indigo-900">Historial de Ventas</h1>
+                            <p class="text-sm font-medium text-indigo-400/80">Revisa las ventas registradas y consulta sus detalles.</p>
+                        </div>
                     </div>
-                    <a href="/ventas/nueva" class="inline-flex items-center justify-center rounded-2xl bg-slate-800 px-4 py-3 text-sm font-semibold text-white transition hover:bg-slate-900">Nueva venta</a>
+                    <a th:href="@{/ventas/nueva}"
+                       class="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 px-5 py-3 text-sm font-bold text-white transition clay-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+                        </svg>
+                        Nueva venta
+                    </a>
                 </div>
 
-                <div class="grid gap-4 lg:grid-cols-[1fr_1fr_1fr] mb-6">
-                    <div>
-                        <label class="mb-2 block text-sm font-medium text-slate-700">Tipo de venta</label>
-                        <form th:action="@{/ventas/historial}" method="get" class="space-y-3">
+                <!-- ===================== FILTROS ===================== -->
+                <div class="mt-8 rounded-[2rem] bg-white p-5 sm:p-6 clay-card-sm">
+                    <form th:action="@{/ventas/historial}" method="get" class="grid gap-4 lg:grid-cols-[1fr_1fr_1fr_auto] lg:items-end">
+                        <div>
+                            <label class="mb-2 block text-sm font-bold text-indigo-900">Tipo de venta</label>
                             <select name="tipoVenta"
-                                    class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none focus:border-sky-400 focus:ring-2 focus:ring-sky-100">
+                                    class="w-full rounded-2xl border-0 bg-purple-50/60 px-4 py-3 text-slate-700 outline-none transition clay-input">
                                 <option value="">Todos</option>
                                 <option th:each="tipo : ${tiposVenta}" th:value="${tipo}" th:text="${tipo}"></option>
                             </select>
-                            <button type="submit" class="inline-flex w-full items-center justify-center rounded-2xl bg-sky-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-sky-700">Filtrar</button>
-                        </form>
-                    </div>
-                    <div>
-                        <label class="mb-2 block text-sm font-medium text-slate-700">Desde</label>
-                        <input type="date" name="desde"
-                               class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none focus:border-sky-400 focus:ring-2 focus:ring-sky-100" />
-                    </div>
-                    <div>
-                        <label class="mb-2 block text-sm font-medium text-slate-700">Hasta</label>
-                        <input type="date" name="hasta"
-                               class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none focus:border-sky-400 focus:ring-2 focus:ring-sky-100" />
-                    </div>
+                        </div>
+                        <div>
+                            <label class="mb-2 block text-sm font-bold text-indigo-900">Desde</label>
+                            <input type="date" name="desde"
+                                   class="w-full rounded-2xl border-0 bg-purple-50/60 px-4 py-3 text-slate-700 outline-none transition clay-input" />
+                        </div>
+                        <div>
+                            <label class="mb-2 block text-sm font-bold text-indigo-900">Hasta</label>
+                            <input type="date" name="hasta"
+                                   class="w-full rounded-2xl border-0 bg-purple-50/60 px-4 py-3 text-slate-700 outline-none transition clay-input" />
+                        </div>
+                        <button type="submit"
+                                class="inline-flex items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 px-6 py-3 text-sm font-bold text-white transition clay-btn">Filtrar</button>
+                    </form>
                 </div>
 
-                <div class="overflow-x-auto rounded-3xl border border-slate-200 bg-slate-50">
-                    <table class="min-w-full divide-y divide-slate-200 text-left text-sm">
-                        <thead class="bg-slate-100 text-slate-700">
-                        <tr>
-                            <th class="px-4 py-3 font-medium">Fecha</th>
-                            <th class="px-4 py-3 font-medium">Cliente</th>
-                            <th class="px-4 py-3 font-medium">Tipo</th>
-                            <th class="px-4 py-3 font-medium">Pago</th>
-                            <th class="px-4 py-3 font-medium">Total</th>
-                            <th class="px-4 py-3 font-medium">Acciones</th>
+                <!-- ===================== TABLA ===================== -->
+                <div class="mt-6 overflow-x-auto rounded-[2rem] bg-white p-2 sm:p-3 clay-card-sm">
+                    <table class="min-w-full border-separate text-left text-sm border-spaced-table">
+                        <thead>
+                        <tr class="text-xs font-bold uppercase tracking-wide text-indigo-400/80">
+                            <th class="px-5 py-3">Fecha</th>
+                            <th class="px-5 py-3">Cliente</th>
+                            <th class="px-5 py-3">Tipo</th>
+                            <th class="px-5 py-3">Pago</th>
+                            <th class="px-5 py-3">Total</th>
+                            <th class="px-5 py-3">Acciones</th>
                         </tr>
                         </thead>
-                        <tbody class="divide-y divide-slate-200 bg-white">
-                        <tr th:each="venta : ${ventas}">
-                            <td class="px-4 py-4 text-slate-800" th:text="${#temporals.format(venta.fechaVenta, 'dd/MM/yyyy HH:mm')}"></td>
-                            <td class="px-4 py-4 text-slate-800" th:text="${venta.cliente != null ? venta.cliente.nombre : 'Público General'}"></td>
-                            <td class="px-4 py-4 text-slate-800" th:text="${venta.tipoVenta}"></td>
-                            <td class="px-4 py-4 text-slate-800" th:text="${venta.metodoPago}"></td>
-                            <td class="px-4 py-4 text-slate-800" th:text="${#numbers.formatDecimal(venta.total, 1, 'COMMA', 2, 'POINT')}"></td>
-                            <td class="px-4 py-4">
+                        <tbody>
+                        <tr th:each="venta : ${ventas}" class="rounded-2xl bg-purple-50/50 clay-row">
+                            <td class="rounded-l-2xl px-5 py-4 font-medium text-indigo-400/80" th:text="${#temporals.format(venta.fechaVenta, 'dd/MM/yyyy HH:mm')}"></td>
+                            <td class="px-5 py-4 font-bold text-indigo-900" th:text="${venta.cliente != null ? venta.cliente.nombre : 'Público General'}"></td>
+                            <td class="px-5 py-4">
+                                <span class="inline-flex items-center rounded-full bg-sky-100 px-3 py-1.5 text-xs font-bold text-sky-700 clay-chip" th:text="${venta.tipoVenta}"></span>
+                            </td>
+                            <td class="px-5 py-4 font-medium text-slate-700" th:text="${venta.metodoPago}"></td>
+                            <td class="px-5 py-4 font-bold text-indigo-900" th:text="${#numbers.formatDecimal(venta.total, 1, 'COMMA', 2, 'POINT')}"></td>
+                            <td class="rounded-r-2xl px-5 py-4">
                                 <a th:href="@{/ventas/detalle/{id}(id=${venta.idVenta})}"
-                                   class="inline-flex rounded-2xl bg-sky-600 px-3 py-2 text-xs font-semibold text-white transition hover:bg-sky-700">Ver detalle</a>
+                                   class="inline-flex items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 px-4 py-2 text-xs font-bold text-white transition clay-btn">Ver detalle</a>
                             </td>
                         </tr>
                         <tr th:if="${#lists.isEmpty(ventas)}">
-                            <td class="px-4 py-8 text-center text-slate-500" colspan="6">No hay ventas registradas.</td>
+                            <td class="rounded-2xl px-5 py-10 text-center font-semibold text-indigo-400/80 clay-panel-inset" colspan="6">No hay ventas registradas.</td>
                         </tr>
                         </tbody>
                     </table>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mantenimiento | Nuevo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" th:href="@{/css/main.css}" />
+    <th:block th:replace="~{fragments/csrf_fragment :: csrfMeta}"></th:block>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-purple-100 via-indigo-50 to-purple-200 text-slate-700">
+
+<div class="min-h-screen p-4 sm:p-6 lg:p-8">
+    <div class="app-shell grid min-h-[calc(100vh-2rem)] gap-10 lg:gap-14">
+
+        <div th:insert="~{fragments/sidebar_fragment :: sidebarMenu}"></div>
+
+        <div class="mx-auto w-full">
+            <div class="rounded-[2.5rem] bg-purple-50/90 backdrop-blur p-6 sm:p-10 clay-card">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h1 class="text-2xl sm:text-3xl font-extrabold text-indigo-900">Registrar Mantenimiento</h1>
+                        <p class="text-sm font-medium text-indigo-400/80">Registra la bitácora y programa la próxima intervención.</p>
+                    </div>
+                    <a th:href="@{/mantenimiento}" class="inline-flex items-center justify-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-bold text-indigo-500 transition clay-btn-soft">Volver al historial</a>
+                </div>
+
+                <form th:action="@{/mantenimiento/guardar}" method="post" class="mt-6 grid gap-6">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+                    <div class="rounded-[2rem] bg-white p-6 sm:p-8 clay-card-sm">
+                        <div class="grid gap-6 sm:grid-cols-2">
+                            <div>
+                                <label class="mb-2 block text-sm font-bold text-indigo-900">Tipo de mantenimiento</label>
+                                <input name="tipoMantenimiento" required type="text" placeholder="Lavado de cisterna"
+                                       class="w-full rounded-2xl border-0 bg-purple-50/60 px-4 py-3 text-slate-700 outline-none transition clay-input" />
+                            </div>
+                            <div>
+                                <label class="mb-2 block text-sm font-bold text-indigo-900">Insumo / Producto utilizado (opcional)</label>
+                                <select name="productoId" class="w-full rounded-2xl border-0 bg-purple-50/60 px-4 py-3 text-slate-700 outline-none transition clay-input">
+                                    <option value="" selected>Sin insumo (mano de obra)</option>
+                                    <option th:each="p : ${productos}" th:value="${p.idProducto}" th:text="${p.nombre} + ' - stock: ' + ${p.stockActual}"></option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mt-6">
+                            <label class="mb-2 block text-sm font-bold text-indigo-900">Descripción</label>
+                            <textarea name="descripcion" rows="4" placeholder="Detalles del trabajo realizado" class="w-full rounded-[1.75rem] bg-white px-5 py-4 text-sm font-medium text-indigo-900 placeholder-indigo-300 outline-none clay-input transition"></textarea>
+                        </div>
+
+                        <div class="mt-6 grid gap-6 sm:grid-cols-2">
+                            <div>
+                                <label class="mb-2 block text-sm font-bold text-indigo-900">Fecha realizado (opcional)</label>
+                                <input name="fechaRealizadoStr" type="datetime-local" class="w-full rounded-2xl border-0 bg-purple-50/60 px-4 py-3 text-slate-700 outline-none clay-input" />
+                            </div>
+                            <div>
+                                <label class="mb-2 block text-sm font-bold text-indigo-900">Próxima fecha</label>
+                                <input name="proximaFecha" type="date" class="w-full rounded-2xl border-0 bg-purple-50/60 px-4 py-3 text-slate-700 outline-none clay-input" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-end gap-3">
+                        <button type="submit" class="inline-flex items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 px-6 py-3 text-sm font-bold text-white transition clay-btn">Guardar mantenimiento</button>
+                        <a th:href="@{/mantenimiento}" class="inline-flex items-center justify-center rounded-full bg-purple-50 px-6 py-3 text-sm font-bold text-indigo-500 transition clay-btn-soft">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

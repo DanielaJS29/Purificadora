@@ -1,0 +1,61 @@
+/* auth.css - estilos para páginas de autenticación */
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800;900&display=swap');
+
+body {
+    font-family: 'Urbanist', sans-serif;
+}
+
+.clay-card {
+    box-shadow:
+        0 0 50px var(--glow-ring),
+        14px 14px 28px var(--glow-dark),
+        -10px -10px 24px var(--glow-light),
+        inset 2px 2px 6px var(--glow-inset-light);
+}
+
+.clay-input {
+    box-shadow:
+        inset 5px 5px 10px var(--input-inset-dark),
+        inset -5px -5px 10px var(--input-inset-light);
+}
+
+.clay-input:focus {
+    box-shadow:
+        inset 4px 4px 8px var(--input-inset-dark),
+        inset -4px -4px 8px var(--input-inset-light),
+        0 0 0 4px var(--input-focus-ring);
+}
+
+.clay-btn {
+    box-shadow:
+        8px 8px 16px rgba(88, 63, 201, 0.35),
+        -6px -6px 14px rgba(163, 148, 255, 0.4),
+        inset 3px 3px 6px rgba(255, 255, 255, 0.35),
+        inset -3px -3px 8px rgba(60, 40, 150, 0.35);
+}
+
+.clay-btn:active {
+    box-shadow:
+        inset 4px 4px 10px rgba(60, 40, 150, 0.45),
+        inset -2px -2px 6px rgba(255, 255, 255, 0.25);
+    transform: translateY(1px);
+}
+
+.clay-chip {
+    box-shadow:
+        6px 6px 12px var(--glow-dark),
+        -6px -6px 12px var(--glow-light),
+        inset 1px 1px 2px var(--glow-inset-light);
+}
+
+.clay-alert {
+    box-shadow:
+        6px 6px 14px var(--glow-dark),
+        inset 2px 2px 6px var(--glow-inset-light);
+}
+
+.clay-panel-inset {
+    box-shadow:
+        inset 6px 6px 14px var(--glow-inset-dark),
+        inset -6px -6px 14px var(--glow-inset-light);
+}

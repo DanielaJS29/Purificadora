@@ -1,0 +1,287 @@
+/* main.css - shared UI tokens for dashboard, inventario y ventas */
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800;900&display=swap');
+
+html,
+body {
+    min-height: 100%;
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: 'Urbanist', sans-serif;
+}
+
+.clay-card {
+    box-shadow:
+        0 0 50px var(--glow-ring),
+        14px 14px 28px var(--glow-dark),
+        -10px -10px 24px var(--glow-light),
+        inset 2px 2px 6px var(--glow-inset-light);
+}
+
+.clay-card-sidebar {
+    box-shadow:
+        0 0 40px var(--sidebar-glow-ring),
+        10px 10px 22px var(--sidebar-glow-dark),
+        inset 2px 2px 6px var(--sidebar-inset-light),
+        inset -2px -2px 8px var(--sidebar-inset-dark);
+}
+
+/* ===================== SIDEBAR COLAPSABLE ===================== */
+/* El ancho del sidebar y del riel colapsado viven en variables (definidas
+   en palette.css) para que un solo toggle en <body> controle tanto el
+   propio aside como la columna del grid del contenido (layout fluido). */
+@media (min-width: 1024px) {
+    .clay-card-sidebar {
+        width: var(--sidebar-width);
+        height: 100vh;
+        min-height: 100vh;
+        max-height: 100vh;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        transition: width 0.3s ease, padding 0.3s ease;
+        overflow: hidden;
+    }
+
+    /* El contenedor de layout (grid) usa la misma variable como 1ra columna.
+       Reemplaza en tus páginas la clase fija "lg:grid-cols-[280px_1fr]"
+       por "app-shell" (ver ejemplo de uso más abajo). */
+    .app-shell {
+        display: grid;
+        transition: grid-template-columns 0.3s ease;
+    }
+    .app-shell {
+        grid-template-columns: var(--sidebar-width) 1fr;
+    }
+
+    body.sidebar-collapsed .clay-card-sidebar,
+    html.sidebar-collapsed .clay-card-sidebar {
+        width: var(--sidebar-width-collapsed);
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    body.sidebar-collapsed .app-shell,
+    html.sidebar-collapsed .app-shell {
+        grid-template-columns: var(--sidebar-width-collapsed) 1fr;
+    }
+}
+
+/* Oculta etiquetas de texto cuando está colapsado; los íconos se quedan */
+body.sidebar-collapsed .sidebar-text,
+body.sidebar-collapsed .link-label,
+html.sidebar-collapsed .sidebar-text,
+html.sidebar-collapsed .link-label {
+    display: none;
+}
+
+body.sidebar-collapsed .sidebar-header,
+html.sidebar-collapsed .sidebar-header {
+    justify-content: center;
+}
+
+body.sidebar-collapsed .sidebar-link,
+html.sidebar-collapsed .sidebar-link {
+    justify-content: center;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
+
+body.sidebar-collapsed #sidebarToggleBtn,
+html.sidebar-collapsed #sidebarToggleBtn {
+    align-self: center;
+}
+
+/* Gira la flecha del botón de colapsar */
+body.sidebar-collapsed #sidebarToggleIcon,
+html.sidebar-collapsed #sidebarToggleIcon {
+    transform: rotate(180deg);
+}
+
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    flex: 1 1 auto;
+    min-height: 0;
+    max-height: calc(100vh - 11rem);
+    overflow-y: auto;
+    padding-right: 0.5rem;
+    padding-bottom: 1rem;
+}
+
+.sidebar-nav a {
+    min-height: 3rem;
+    display: flex;
+    align-items: center;
+}
+
+.sidebar-nav .sidebar-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin: 0;
+}
+
+.sidebar-nav::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sidebar-nav::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.18);
+    border-radius: 999px;
+}
+
+.sidebar-nav::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.sidebar-link.active-sidebar-link {
+    background-color: rgba(255, 255, 255, 0.22);
+    color: #ffffff !important;
+}
+
+.sidebar-link.active-sidebar-link svg {
+    color: #ffffff;
+}
+
+.sidebar-link.active-sidebar-link:hover {
+    background-color: rgba(255, 255, 255, 0.28);
+}
+
+.clay-card-sm {
+    box-shadow:
+        0 0 28px var(--glow-ring),
+        10px 10px 20px var(--glow-dark),
+        -8px -8px 18px var(--glow-light),
+        inset 2px 2px 5px var(--glow-inset-light);
+}
+
+.clay-btn {
+    box-shadow:
+        8px 8px 16px rgba(88, 63, 201, 0.35),
+        -6px -6px 14px rgba(163, 148, 255, 0.4),
+        inset 3px 3px 6px rgba(255, 255, 255, 0.35),
+        inset -3px -3px 8px rgba(60, 40, 150, 0.35);
+}
+
+.clay-btn:active {
+    box-shadow:
+        inset 4px 4px 10px rgba(60, 40, 150, 0.45),
+        inset -2px -2px 6px rgba(255, 255, 255, 0.25);
+    transform: translateY(1px);
+}
+
+.clay-btn-soft {
+    box-shadow:
+        6px 6px 14px var(--glow-dark),
+        -6px -6px 14px var(--glow-light),
+        inset 2px 2px 4px var(--glow-inset-light);
+}
+
+.clay-btn-soft:active {
+    box-shadow:
+        inset 3px 3px 8px var(--glow-inset-dark),
+        inset -2px -2px 6px var(--glow-inset-light);
+    transform: translateY(1px);
+}
+
+.clay-btn-dark {
+    box-shadow:
+        8px 8px 16px rgba(30, 27, 45, 0.35),
+        -5px -5px 12px rgba(255, 255, 255, 0.4),
+        inset 2px 2px 5px rgba(255, 255, 255, 0.1),
+        inset -2px -2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.clay-btn-dark:active {
+    box-shadow: inset 3px 3px 8px rgba(0, 0, 0, 0.4);
+    transform: translateY(1px);
+}
+
+.clay-btn-danger {
+    box-shadow:
+        6px 6px 14px rgba(190, 40, 70, 0.3),
+        -6px -6px 14px rgba(255, 170, 180, 0.35),
+        inset 3px 3px 6px rgba(255, 255, 255, 0.3),
+        inset -3px -3px 8px rgba(140, 20, 40, 0.35);
+}
+
+.clay-btn-danger:active {
+    box-shadow:
+        inset 4px 4px 10px rgba(140, 20, 40, 0.45),
+        inset -2px -2px 6px rgba(255, 255, 255, 0.2);
+    transform: translateY(1px);
+}
+
+.clay-btn-light {
+    box-shadow:
+        6px 6px 14px var(--glow-dark),
+        -4px -4px 10px var(--glow-light),
+        inset 2px 2px 4px var(--glow-inset-light);
+}
+
+.clay-btn-light:active {
+    box-shadow: inset 3px 3px 8px var(--glow-inset-dark);
+    transform: translateY(1px);
+}
+
+.clay-chip {
+    box-shadow:
+        6px 6px 12px var(--glow-dark),
+        -6px -6px 12px var(--glow-light),
+        inset 1px 1px 2px var(--glow-inset-light);
+}
+
+.clay-chip-dark {
+    box-shadow:
+        4px 4px 8px var(--sidebar-glow-dark),
+        -3px -3px 6px var(--sidebar-inset-light);
+}
+
+.clay-input {
+    box-shadow:
+        inset 4px 4px 10px var(--input-inset-dark),
+        inset -4px -4px 10px var(--input-inset-light);
+}
+
+.clay-input:focus {
+    box-shadow:
+        inset 3px 3px 8px var(--input-inset-dark),
+        inset -2px -2px 6px var(--input-inset-light),
+        0 0 0 3px var(--input-focus-ring);
+}
+
+.clay-input-readonly {
+    box-shadow:
+        inset 4px 4px 10px var(--glow-inset-dark),
+        inset -4px -4px 10px var(--glow-inset-light);
+}
+
+.clay-panel-inset {
+    box-shadow:
+        inset 6px 6px 14px var(--glow-inset-dark),
+        inset -6px -6px 14px var(--glow-inset-light);
+}
+
+.clay-panel-inset-dark {
+    box-shadow:
+        inset 4px 4px 10px var(--sidebar-inset-dark),
+        inset -3px -3px 8px var(--sidebar-inset-light);
+}
+
+.clay-alert {
+    box-shadow:
+        6px 6px 14px var(--glow-dark),
+        inset 2px 2px 6px var(--glow-inset-light);
+}
+
+.clay-row {
+    box-shadow: 0 4px 10px var(--glow-dark);
+}
+
+.border-spaced-table {
+    border-spacing: 0 0.5rem;
+}

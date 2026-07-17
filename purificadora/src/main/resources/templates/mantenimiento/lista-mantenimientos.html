@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mantenimiento | Historial</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" th:href="@{/css/main.css}" />
+    <th:block th:replace="~{fragments/csrf_fragment :: csrfMeta}"></th:block>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-purple-100 via-indigo-50 to-purple-200 text-slate-700">
+
+<div class="min-h-screen p-4 sm:p-6 lg:p-8">
+    <div class="app-shell grid min-h-[calc(100vh-2rem)] gap-10 lg:gap-14">
+
+        <div th:insert="~{fragments/sidebar_fragment :: sidebarMenu}"></div>
+
+        <div class="mx-auto w-full">
+            <div class="rounded-[2.5rem] bg-purple-50/90 backdrop-blur p-6 sm:p-10 clay-card">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h1 class="text-2xl sm:text-3xl font-extrabold text-indigo-900">Historial de Mantenimientos</h1>
+                        <p class="text-sm font-medium text-indigo-400/80">Registro y control de calidad de la planta.</p>
+                    </div>
+                    <a th:href="@{/mantenimiento/nuevo}" class="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 px-5 py-3 text-sm font-bold text-white transition clay-btn">Registrar Bitácora de Mantenimiento</a>
+                </div>
+
+                <div class="mt-6 overflow-x-auto rounded-[2rem] bg-white p-3 clay-card-sm">
+                    <table class="min-w-full border-separate text-left text-sm border-spaced-table">
+                        <thead>
+                        <tr class="text-xs font-bold uppercase tracking-wide text-indigo-400/80">
+                            <th class="px-5 py-3">Tipo</th>
+                            <th class="px-5 py-3">Insumo / Producto</th>
+                            <th class="px-5 py-3">Descripción</th>
+                            <th class="px-5 py-3">Fecha Realizado</th>
+                            <th class="px-5 py-3">Próxima Fecha</th>
+                            <th class="px-5 py-3">Estado</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="m : ${mantenimientos}" class="rounded-2xl bg-purple-50/50 clay-row align-top">
+                            <td class="px-5 py-4 font-bold text-indigo-900" th:text="${m.tipoMantenimiento}"></td>
+                            <td class="px-5 py-4 text-slate-700">
+                                <span th:if="${m.producto != null}" th:text="${m.producto.nombre}"></span>
+                                <span th:if="${m.producto == null}">- (mano de obra / sin insumo)</span>
+                            </td>
+                            <td class="px-5 py-4 text-slate-700" th:text="${m.descripcion}"></td>
+                            <td class="px-5 py-4 text-indigo-700" th:text="${m.fechaRealizado != null} ? ${#temporals.format(m.fechaRealizado, 'dd/MM/yyyy HH:mm')} : '-' "></td>
+                            <td class="px-5 py-4">
+                                <div>
+                                    <span th:text="${m.proximaFecha != null} ? ${#temporals.format(m.proximaFecha, 'dd/MM/yyyy')} : '-' "></span>
+                                </div>
+                            </td>
+                            <td class="px-5 py-4">
+                                <div th:if="${m.proximaFecha != null}">
+                                    <span th:if="${m.proximaFecha.isBefore(T(java.time.LocalDate).now())}" class="inline-flex items-center rounded-full bg-rose-500 px-3 py-1.5 text-xs font-bold text-white">Vencido</span>
+                                    <span th:if="${!m.proximaFecha.isBefore(T(java.time.LocalDate).now()) and m.proximaFecha.isBefore(T(java.time.LocalDate).now().plusDays(7))}" class="inline-flex items-center rounded-full bg-amber-400 px-3 py-1.5 text-xs font-bold text-white">Próximo</span>
+                                    <span th:if="${m.proximaFecha.isAfter(T(java.time.LocalDate).now().plusDays(6))}" class="inline-flex items-center rounded-full bg-emerald-400 px-3 py-1.5 text-xs font-bold text-white">Al día</span>
+                                </div>
+                                <div th:if="${m.proximaFecha == null}"><span class="text-sm text-slate-500">Sin programación</span></div>
+                            </td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(mantenimientos)}">
+                            <td class="rounded-2xl px-5 py-10 text-center font-semibold text-indigo-400/80 clay-panel-inset" colspan="6">No hay registros de mantenimiento.</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

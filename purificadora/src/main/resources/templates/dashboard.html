@@ -5,102 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard | Purificadora</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <th:block th:insert="~{fragments/csrf_fragment :: csrfMeta}" />
-
-    <style>
-        body { font-family: 'Urbanist', sans-serif; }
-
-        /* --- Clay shadow tokens (usados en dashboard, login y sidebar) --- */
-        .clay-card {
-            box-shadow:
-                14px 14px 28px rgba(124, 104, 238, 0.18),
-                -10px -10px 24px rgba(255, 255, 255, 0.9),
-                inset 2px 2px 6px rgba(255, 255, 255, 0.6);
-        }
-        .clay-card-sidebar {
-            box-shadow:
-                10px 10px 22px rgba(88, 63, 201, 0.28),
-                inset 2px 2px 6px rgba(255, 255, 255, 0.15),
-                inset -2px -2px 8px rgba(60, 40, 150, 0.2);
-        }
-        .clay-card-sm {
-            box-shadow:
-                10px 10px 20px rgba(124, 104, 238, 0.14),
-                -8px -8px 18px rgba(255, 255, 255, 0.85),
-                inset 2px 2px 5px rgba(255, 255, 255, 0.55);
-        }
-        .clay-btn {
-            box-shadow:
-                8px 8px 16px rgba(88, 63, 201, 0.35),
-                -6px -6px 14px rgba(163, 148, 255, 0.4),
-                inset 3px 3px 6px rgba(255, 255, 255, 0.35),
-                inset -3px -3px 8px rgba(60, 40, 150, 0.35);
-        }
-        .clay-btn:active {
-            box-shadow:
-                inset 4px 4px 10px rgba(60, 40, 150, 0.45),
-                inset -2px -2px 6px rgba(255, 255, 255, 0.25);
-            transform: translateY(1px);
-        }
-        .clay-btn-soft {
-            box-shadow:
-                6px 6px 14px rgba(124, 104, 238, 0.14),
-                -6px -6px 14px rgba(255, 255, 255, 0.85),
-                inset 2px 2px 4px rgba(255, 255, 255, 0.6);
-        }
-        .clay-btn-soft:active {
-            box-shadow:
-                inset 3px 3px 8px rgba(124, 104, 238, 0.2),
-                inset -2px -2px 6px rgba(255, 255, 255, 0.5);
-            transform: translateY(1px);
-        }
-        .clay-chip {
-            box-shadow:
-                6px 6px 12px rgba(124, 104, 238, 0.15),
-                -6px -6px 12px rgba(255, 255, 255, 0.85),
-                inset 1px 1px 2px rgba(255, 255, 255, 0.6);
-        }
-        .clay-panel-inset {
-            box-shadow:
-                inset 6px 6px 14px rgba(124, 104, 238, 0.10),
-                inset -6px -6px 14px rgba(255, 255, 255, 0.7);
-        }
-
-        /* --- Tokens exclusivos del sidebar (fondo morado oscuro) --- */
-        .clay-chip-dark {
-            box-shadow:
-                4px 4px 8px rgba(60, 40, 150, 0.25),
-                -3px -3px 6px rgba(255, 255, 255, 0.4);
-        }
-        .clay-panel-inset-dark {
-            box-shadow:
-                inset 4px 4px 10px rgba(60, 40, 150, 0.25),
-                inset -3px -3px 8px rgba(255, 255, 255, 0.08);
-        }
-        .clay-btn-light {
-            box-shadow:
-                6px 6px 14px rgba(60, 40, 150, 0.3),
-                -4px -4px 10px rgba(255, 255, 255, 0.5),
-                inset 2px 2px 4px rgba(255, 255, 255, 0.7);
-        }
-        .clay-btn-light:active {
-            box-shadow: inset 3px 3px 8px rgba(124, 104, 238, 0.3);
-            transform: translateY(1px);
-        }
-    </style>
+    <link rel="stylesheet" th:href="@{/css/main.css}" />
+    <th:block th:replace="~{fragments/csrf_fragment :: csrfMeta}"></th:block>
 </head>
 <body class="min-h-screen bg-gradient-to-br from-purple-100 via-indigo-50 to-purple-200 text-slate-700">
 
-<div class="min-h-screen">
-    <div class="grid min-h-screen lg:grid-cols-[280px_1fr]">
-
+<div class="min-h-screen p-4 sm:p-6 lg:p-8">
+<div class="app-shell grid gap-10 lg:gap-14 sm:min-h-[calc(100vh-3rem)] lg:min-h-[calc(100vh-4rem)] min-h-[calc(100vh-2rem)]">
         <!-- Sidebar (fragmento externo, sin tocar su lógica) -->
         <div th:insert="~{fragments/sidebar_fragment :: sidebarMenu}"></div>
 
-        <div class="mx-auto w-full px-4 py-8 sm:px-6 lg:px-10 lg:py-12">
+        <div class="mx-auto w-full">
 
             <!-- ===================== TARJETA PRINCIPAL ===================== -->
             <div class="rounded-[2.5rem] bg-purple-50/90 backdrop-blur p-6 sm:p-10 clay-card">

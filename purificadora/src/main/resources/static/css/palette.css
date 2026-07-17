@@ -1,0 +1,216 @@
+:root {
+    color-scheme: light;
+    --bg-page: linear-gradient(to bottom right, #f8fafc, #eef2ff);
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --surface: #ffffff;
+    --surface-alt: #f8fafc;
+    --panel-bg: #eef2ff;
+    --btn-primary: #6366f1;
+    --btn-text: #ffffff;
+    --btn-soft: #eef2ff;
+    --danger: #ef4444;
+    --input-bg: #f8fafc;
+    --chip-bg: #eef2ff;
+    --shadow-color: rgba(124, 104, 238, 0.12);
+
+    /* Ancho del sidebar colapsable — no depende del tema, es igual
+       en claro/oscuro, por eso vive en :root en vez de body.light/dark */
+    --sidebar-width: 20rem;
+    --sidebar-width-collapsed: 5.5rem;
+}
+
+body.light {
+    color-scheme: light;
+    --bg-page: linear-gradient(to bottom right, #f8fafc, #eef2ff);
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --surface: #ffffff;
+    --surface-alt: #f8fafc;
+    --panel-bg: #eef2ff;
+    --btn-primary: #6366f1;
+    --btn-text: #ffffff;
+    --btn-soft: #eef2ff;
+    --danger: #dc2626;
+    --input-bg: #f8fafc;
+    --chip-bg: #eef2ff;
+    --shadow-color: rgba(124, 104, 238, 0.12);
+
+    /* --- Efecto "clay" / luz --- */
+    --glow-dark: rgba(124, 104, 238, 0.18);
+    --glow-light: rgba(255, 255, 255, 0.9);
+    --glow-inset-light: rgba(255, 255, 255, 0.6);
+    --glow-inset-dark: rgba(124, 104, 238, 0.10);
+
+    --sidebar-glow-dark: rgba(88, 63, 201, 0.28);
+    --sidebar-inset-light: rgba(255, 255, 255, 0.15);
+    --sidebar-inset-dark: rgba(60, 40, 150, 0.2);
+
+    --input-inset-dark: rgba(124, 104, 238, 0.12);
+    --input-inset-light: rgba(255, 255, 255, 0.7);
+    --input-focus-ring: rgba(129, 108, 245, 0.18);
+
+    /* Glow ambiental alrededor del contenedor (halo) */
+    --glow-ring: rgba(124, 104, 238, 0.28);
+    --sidebar-glow-ring: rgba(88, 63, 201, 0.30);
+}
+
+body.dark {
+    color-scheme: dark;
+    --bg-page: linear-gradient(to bottom right, #0f172a, #1e293b);
+    --text-primary: #e2e8f0;
+    --text-secondary: #94a3b8;
+    --surface: #111827;
+    --surface-alt: #1f2937;
+    --panel-bg: #0f172a;
+    --btn-primary: #818cf8;
+    --btn-text: #f8fafc;
+    --btn-soft: #1e293b;
+    --danger: #f87171;
+    --input-bg: #111827;
+    --chip-bg: #1e2937;
+    --shadow-color: rgba(15, 23, 42, 0.45);
+
+    /* --- Efecto "clay" / luz en oscuro ---
+       En vez del brillo blanco (pensado para fondo claro), usamos un
+       resplandor índigo tenue como "luz" que delinea el contenedor,
+       y una sombra realmente oscura para dar profundidad. Así el
+       contenedor resalta contra el fondo navy en vez de verse plano. */
+    --glow-dark: rgba(0, 0, 0, 0.55);
+    --glow-light: rgba(99, 102, 241, 0.30);
+    --glow-inset-light: rgba(129, 140, 248, 0.12);
+    --glow-inset-dark: rgba(0, 0, 0, 0.35);
+
+    --sidebar-glow-dark: rgba(0, 0, 0, 0.5);
+    --sidebar-inset-light: rgba(129, 140, 248, 0.14);
+    --sidebar-inset-dark: rgba(0, 0, 0, 0.4);
+
+    --input-inset-dark: rgba(0, 0, 0, 0.4);
+    --input-inset-light: rgba(129, 140, 248, 0.08);
+    --input-focus-ring: rgba(129, 140, 248, 0.35);
+
+    /* Glow ambiental alrededor del contenedor (halo) — más intenso
+       para que el contenedor se despegue del fondo navy */
+    --glow-ring: rgba(99, 102, 241, 0.45);
+    --sidebar-glow-ring: rgba(129, 140, 248, 0.4);
+}
+
+body,
+body.light,
+body.dark {
+    background: var(--bg-page) !important;
+    color: var(--text-primary) !important;
+}
+
+/* ============ FONDOS CLAROS "surface" ============ */
+body.light .bg-white,
+body.light .bg-white\/90,
+body.light .bg-white\/95,
+body.light .bg-white\/10,
+body.light .bg-white\/20,
+body.light .bg-white\/30,
+body.light .bg-white\/40 {
+    background-color: var(--surface) !important;
+}
+
+body.dark .bg-white,
+body.dark .bg-white\/90,
+body.dark .bg-white\/95,
+body.dark .bg-white\/10,
+body.dark .bg-white\/20,
+body.dark .bg-white\/30 {
+    background-color: var(--surface) !important;
+}
+
+/* ============ FONDOS "surface-alt" (tarjetas suaves de color) ============ */
+/* NOTA: se agregaron aquí las variantes -50 (sin opacidad) que faltaban:
+   bg-emerald-50, bg-sky-50, bg-purple-50 — estas eran las que dejaban
+   las tarjetas "Usuario" / "Estado" y los botones secundarios claros
+   en modo oscuro, aunque el texto sí cambiaba a color claro. */
+body.dark .bg-purple-50\/90,
+body.dark .bg-purple-50\/60,
+body.dark .bg-purple-50\/50,
+body.dark .bg-purple-50\/40,
+body.dark .bg-purple-50\/20,
+body.dark .bg-purple-50,
+body.dark .bg-emerald-50,
+body.dark .bg-sky-50,
+body.dark .bg-rose-50,
+body.dark .bg-amber-50,
+body.dark .bg-indigo-50,
+body.dark .bg-pink-50,
+body.dark .bg-sky-100,
+body.dark .bg-amber-100,
+body.dark .bg-emerald-100,
+body.dark .bg-rose-100,
+body.dark .bg-indigo-100 {
+    background-color: var(--surface-alt) !important;
+}
+
+/* ============ CHIPS / ICONOS circulares (emerald-200/70, sky-200/70, etc.) ============ */
+/* Estos son insignias pequeñas de acento; en oscuro se atenúan un poco
+   para que no compitan visualmente con la tarjeta ya oscurecida arriba. */
+body.dark .bg-emerald-200\/70,
+body.dark .bg-sky-200\/70,
+body.dark .bg-rose-200\/70 {
+    background-color: var(--chip-bg) !important;
+}
+
+/* ============ BLOBS DECORATIVOS (panel del login) ============ */
+/* bg-white/40, bg-purple-300/50 y bg-pink-200/60 son las formas
+   translúcidas de fondo del panel izquierdo de login. NO deben
+   volverse un color sólido (se verían como manchas planas); se
+   quedan translúcidas pero con un tono claro sutil que funciona
+   sobre el nuevo panel oscuro. */
+body.dark .bg-white\/40 {
+    background-color: rgba(226, 232, 240, 0.06) !important;
+}
+body.dark .bg-purple-300\/50 {
+    background-color: rgba(139, 92, 246, 0.22) !important;
+}
+body.dark .bg-pink-200\/60 {
+    background-color: rgba(244, 114, 182, 0.18) !important;
+}
+
+/* ============ TEXTOS ============ */
+body.dark .text-indigo-900,
+body.dark .text-slate-700,
+body.dark .text-slate-900,
+body.dark .text-indigo-700,
+body.dark .text-indigo-500,
+body.dark .text-slate-500 {
+    color: var(--text-primary) !important;
+}
+
+body.dark .text-indigo-400\/80,
+body.dark .text-indigo-400,
+body.dark .text-indigo-500\/80,
+body.dark .text-slate-400,
+body.dark .text-slate-500,
+body.dark .text-slate-600 {
+    color: var(--text-secondary) !important;
+}
+
+/* ============ PANEL IZQUIERDO DEL LOGIN (héroe) ============ */
+/* Este panel trae su propio gradiente Tailwind fijo (from/via/to),
+   independiente del <body>, así que no heredaba el fondo oscuro.
+   Por eso el título "Agua pura, vida ligera" (text-indigo-900,
+   forzado a color claro) quedaba invisible sobre un fondo que
+   seguía siendo claro. Se reemplaza el gradiente completo en oscuro. */
+body.dark .bg-gradient-to-br.from-purple-200.via-indigo-100.to-purple-300 {
+    background-image: linear-gradient(to bottom right, #1e1b4b, #111827, #1e1b4b) !important;
+}
+
+/* ============ ÍCONOS DE ACENTO (emerald-700, sky-700, etc.) ============ */
+/* Se aclaran un poco en modo oscuro para mantener contraste sobre
+   var(--chip-bg), que ahora es oscuro. */
+body.dark .text-emerald-700 {
+    color: #34d399 !important;
+}
+body.dark .text-sky-700 {
+    color: #38bdf8 !important;
+}
+
+::selection {
+    background: rgba(99, 102, 241, 0.2);
+}

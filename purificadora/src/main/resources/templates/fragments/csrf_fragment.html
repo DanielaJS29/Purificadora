@@ -1,5 +1,20 @@
 <div th:fragment="csrfMeta">
     <meta th:if="${_csrf != null}" name="_csrf" th:content="${_csrf.token}" />
     <meta th:if="${_csrf != null}" name="_csrf_header" th:content="${_csrf.headerName}" />
+    <script>
+        (function () {
+            try {
+                if (localStorage.getItem('sidebarCollapsed') === 'true') {
+                    document.documentElement.classList.add('sidebar-collapsed');
+                }
+            } catch (e) {
+                /* Ignorar si storage está bloqueado */
+            }
+        })();
+    </script>
+    <link rel="stylesheet" th:href="@{/css/palette.css}" />
     <script th:src="@{/js/csrf.js}"></script>
+    <script th:src="@{/js/theme-toggle.js}" defer></script>
+    <script th:src="@{/js/sidebar-toggle.js}" defer></script>
+    <link rel="icon" type="image/x-icon" th:href="@{/logo.ico}" />
 </div>
